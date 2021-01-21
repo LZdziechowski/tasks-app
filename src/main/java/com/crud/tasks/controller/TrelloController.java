@@ -26,6 +26,12 @@ public class TrelloController {
         trelloBoards.stream()
                 .filter(trelloBoardDto -> trelloBoardDto.getName() != null && trelloBoardDto.getId() != null)
                 .filter(trelloBoardDto -> trelloBoardDto.getName().contains("Application"))
-                .forEach(trelloBoardDto -> System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName()));
+                .forEach(trelloBoardDto -> {
+                    System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
+                    System.out.println("This board contains lists: ");
+                    trelloBoardDto.getLists().forEach(trelloList -> {
+                        System.out.println(trelloList.getName() + " - " + trelloList.getId() + " - " + trelloList.isClosed());
+                    });
+                });
     }
 }
