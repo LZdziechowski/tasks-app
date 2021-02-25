@@ -1,5 +1,8 @@
 package com.crud.tasks.controller;
 
+import com.crud.tasks.domain.TrelloBoardDto;
+import com.crud.tasks.domain.TrelloList;
+import com.crud.tasks.domain.TrelloListDto;
 import com.crud.tasks.trello.facade.TrelloFacade;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -44,7 +47,29 @@ class TrelloControllerTest {
                 .perform(MockMvcRequestBuilders
                         .get("/v1/trello/getTrelloBoards")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is(200))// or is OK
+                .andExpect(MockMvcResultMatchers.status().is(200))// or isOk()
                 .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
+    }
+
+    @Test
+    void shouldFetchTrelloBoards() throws Exception {
+        //Given
+        List<TrelloListDto> trelloListDtos = List.of(new TrelloListDto("1", "test list", false));
+        List<TrelloBoardDto> trelloBoardDtos = List.of(new TrelloBoardDto("1", "test task", trelloListDtos));
+        when(trelloFacade.fetchTrelloBoards()).thenReturn(trelloBoardDtos);
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/v1/trello/getTrelloBoards")
+                        .contentType(MediaType.APPLICATION_JSON))
+                //Trello board fields
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is("1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name", Matchers.is("test task")))
+                //Trello list fields
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists", Matchers.hasSize(1)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].id", Matchers.is("1")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].name", Matchers.is("test list")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].lists[0].closed", Matchers.is(false)));
     }
 }
