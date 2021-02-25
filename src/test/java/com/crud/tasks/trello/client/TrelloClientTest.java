@@ -80,7 +80,7 @@ class TrelloClientTest {
                 "test_id"
         );
         Badges testBadges = new Badges(1, new AttachmentsByType(new Trello(1, 1)));
-        CreatedTrelloCard createdTrelloCard = new CreatedTrelloCard(
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto(
                 "1",
                 testBadges,
                 "test_name",
@@ -88,9 +88,9 @@ class TrelloClientTest {
         );
         URI url = new URI("http://test.com/cards?key=testKey&token=testToken&name=Test%20task&desc=Test%20description" +
                     "&pos=top&idList=test_id");
-        when(restTemplate.postForObject(url, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
+        when(restTemplate.postForObject(url, null, CreatedTrelloCardDto.class)).thenReturn(createdTrelloCardDto);
         //When
-        CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
+        CreatedTrelloCardDto newCard = trelloClient.createNewCard(trelloCardDto);
         //Then
         assertEquals("1", newCard.getId());
         assertEquals(testBadges, newCard.getBadges());
