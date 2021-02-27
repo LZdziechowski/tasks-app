@@ -71,22 +71,52 @@ class TaskControllerTestSuite {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("testContent")));
     }
 
-/*    @Test
+    @Test
     void shouldCreateTask() throws Exception {
         //Given
         Task task = new Task(1L, "testTitle", "testContent");
         TaskDto taskDto = new TaskDto(1L, "testTitle", "testContent");
         when(taskMapper.mapToTask(taskDto)).thenReturn(task);
         String jsonContent = gson.toJson(taskDto);
-        //When & Then
+        //When
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/v1/task/createTask")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(jsonContent))
-                .andExpect()
-    }*/
+                        .content(jsonContent));
+         //Then
+        assertEquals(1, dbService.getAllTasks().size());
 
+    }
 
+    @Test
+    void shouldUpdateTask() throws Exception {
+        //Given
+        Task task = new Task(1L, "testTitle1", "testContent1");
+        Task task2 = new Task(2L, "testTitle2", "testContent2");
+        TaskDto taskDto = new TaskDto(1L, "testTitle1", "testContent1");
+        TaskDto taskDto2 = new TaskDto(2L, "testTitle2", "testContent2");
+        when(dbService.saveTask(task)).thenReturn(task2);
+        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
+        when(taskMapper.mapToTaskDto(task2)).thenReturn(taskDto2);
+        String jsonContent = gson.toJson(taskDto2);
+    }
+
+    @Test
+    void shouldDeleteTask() throws Exception {
+        //Given
+        Task task = new Task(1L, "testTitle", "testContent");
+        TaskDto taskDto = new TaskDto(1L, "testTitle", "testContent");
+        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
+        String jsonContent = gson.toJson(taskDto);
+        //dbService.saveTask(task);
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .delete("/v1/task/deleteTask")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("taksId", String.valueOf(1L)));
+
+    }
 }
