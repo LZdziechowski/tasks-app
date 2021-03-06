@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class DbService {
+public class
+DbService {
 
     private final TaskRepository repository;
 
@@ -31,5 +32,4 @@ public class DbService {
     public void deleteTask(final Long id) {
         repository.deleteById(id);
     }
-
 }

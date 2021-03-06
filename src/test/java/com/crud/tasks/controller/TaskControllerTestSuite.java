@@ -78,16 +78,14 @@ class TaskControllerTestSuite {
         TaskDto taskDto = new TaskDto(1L, "testTitle", "testContent");
         when(taskMapper.mapToTask(taskDto)).thenReturn(task);
         String jsonContent = gson.toJson(taskDto);
-        //When
+        //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders
                         .post("/v1/task/createTask")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
-                        .content(jsonContent));
-         //Then
-        assertEquals(1, dbService.getAllTasks().size());
-
+                        .content(jsonContent))
+                .andExpect(MockMvcResultMatchers.status().is(200));
     }
 
     @Test
@@ -101,6 +99,17 @@ class TaskControllerTestSuite {
         when(taskMapper.mapToTask(taskDto)).thenReturn(task);
         when(taskMapper.mapToTaskDto(task2)).thenReturn(taskDto2);
         String jsonContent = gson.toJson(taskDto2);
+        //When & Then
+        mockMvc
+                .perform(MockMvcRequestBuilders
+                        .put("/v1/task/updateTask")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("UTF-8")
+                        .content(jsonContent))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(2L)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("testTitle2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("testContent2")));
     }
 
     @Test
@@ -116,7 +125,7 @@ class TaskControllerTestSuite {
                 .perform(MockMvcRequestBuilders
                         .delete("/v1/task/deleteTask")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("taksId", String.valueOf(1L)));
+                        .param("taskId", String.valueOf(1L)));
 
     }
 }
