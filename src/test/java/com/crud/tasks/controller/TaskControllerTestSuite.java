@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitWebConfig
@@ -60,7 +59,6 @@ class TaskControllerTestSuite {
         TaskDto taskDto = new TaskDto(1L, "testTitle", "testContent");
         when(dbService.getTask(taskId)).thenReturn(Optional.of(task));
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
-        String jsonContent = gson.toJson(taskId);
         //When & Them
         mockMvc
                 .perform(MockMvcRequestBuilders
@@ -92,13 +90,11 @@ class TaskControllerTestSuite {
     @Test
     void shouldUpdateTask() throws Exception {
         //Given
-        Task task = new Task(1L, "testTitle1", "testContent1");
-        Task task2 = new Task(1L, "testTitle2", "testContent2");
-        TaskDto taskDto = new TaskDto(1L, "testTitle1", "testContent1");
-        TaskDto taskDto2 = new TaskDto(1L, "testTitle2", "testContent2");
-        when(dbService.saveTask(task)).thenReturn(task2);
-        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
-        when(taskMapper.mapToTaskDto(task2)).thenReturn(taskDto2);
+        dbService.saveTask(new Task(1L, "testTitle", "testContent"));
+        TaskDto taskDto = new TaskDto(1L, "testTitle2", "testContent2");
+        //Task task = taskMapper.mapToTask(taskDto);
+        //Task taskAfterUpdate = new Task(1L, "testTitle2", "testContent2");
+        //when(dbService.saveTask(task)).thenReturn(taskAfterUpdate);
         String jsonContent = gson.toJson(taskDto);
         //When & Then
         mockMvc
@@ -108,9 +104,9 @@ class TaskControllerTestSuite {
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
                 .andExpect(MockMvcResultMatchers.status().is(200))
-                .andDo(MockMvcResultHandlers.print());
-                //.andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("testTitle2")))
-                //.andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("testContent2")));
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("testTitle2")))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("testContent2")));
     }
 
     @Test
@@ -118,9 +114,9 @@ class TaskControllerTestSuite {
         //Given
         Task task = new Task(1L, "testTitle", "testContent");
         TaskDto taskDto = new TaskDto(1L, "testTitle", "testContent");
+        dbService.saveTask(task);
         when(taskMapper.mapToTask(taskDto)).thenReturn(task);
         String jsonContent = gson.toJson(taskDto);
-        //dbService.saveTask(task);
         //When & Then
         mockMvc
                 .perform(MockMvcRequestBuilders

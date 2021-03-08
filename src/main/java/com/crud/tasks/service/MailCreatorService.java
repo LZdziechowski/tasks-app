@@ -59,7 +59,9 @@ public class MailCreatorService {
         Context context = new Context();
         context.setVariable("message", message);
         context.setVariable("tasks_url", "https://lzdziechowski.github.io/");
-        context.setVariable("button", "Visit website");
+        context.setVariable("button_CRUD", "Visit CRUD website");
+        context.setVariable("trello_url", "https://trello.com/b/AcifzmRm/application/");
+        context.setVariable("button_TRELLO", "Visit TRELLO website");
         context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("company_name", companyName);
         context.setVariable("company_phone", companyPhone);
