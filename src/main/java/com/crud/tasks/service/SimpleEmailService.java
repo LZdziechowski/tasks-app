@@ -41,14 +41,4 @@ public class SimpleEmailService {
             mimeMessageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
         };
     }
-
-    private SimpleMailMessage createMailMessage(final Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        Optional<String> toCc = Optional.ofNullable(mail.getToCc());
-        mailMessage.setTo(mail.getMailTo());
-        toCc.ifPresent(mailMessage::setCc);
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
-        return mailMessage;
-    }
 }

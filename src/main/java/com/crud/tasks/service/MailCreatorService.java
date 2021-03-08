@@ -53,4 +53,19 @@ public class MailCreatorService {
         context.setVariable("application_functionality", functionality);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
+
+    public String buildTasksNumberInformationEmail(String message) {
+
+        Context context = new Context();
+        context.setVariable("message", message);
+        context.setVariable("tasks_url", "https://lzdziechowski.github.io/");
+        context.setVariable("button", "Visit website");
+        context.setVariable("admin_name", adminConfig.getAdminName());
+        context.setVariable("company_name", companyName);
+        context.setVariable("company_phone", companyPhone);
+        context.setVariable("company_email", companyEmail);
+        context.setVariable("company_goal", companyGoal);
+        context.setVariable("is_friend", true);
+        return templateEngine.process("mail/once-a-day-email-with-tasks-number", context);
+    }
 }

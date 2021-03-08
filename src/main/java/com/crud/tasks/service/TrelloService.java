@@ -19,7 +19,7 @@ public class TrelloService {
     private final TrelloClient trelloClient;
     private final SimpleEmailService emailService;
     private final AdminConfig adminConfig;
-    private static final String SUBJECT = "Task: New Trello card";
+    public static final String SUBJECT = "Task: New Trello card";
 
     public List<TrelloBoardDto> fetchTrelloBoards() {
         return trelloClient.getTrelloBoards();
