@@ -23,8 +23,6 @@ public class MailCreatorService {
     @Value("${info.company.goal}")
     private String companyGoal;
 
-    private String companyDetails = companyName + "\n" + companyPhone + "\n" + companyEmail + "\n" + companyGoal;
-
     @Autowired
     private AdminConfig adminConfig;
 
@@ -38,8 +36,10 @@ public class MailCreatorService {
         context.setVariable("tasks_url", "https://lzdziechowski.github.io/");
         context.setVariable("button", "Visit website");
         context.setVariable("admin_name", adminConfig.getAdminName());
-        context.setVariable("signature", (companyName));
-        context.setVariable("company_details", companyDetails);
+        context.setVariable("company_name", companyName);
+        context.setVariable("company_phone", companyPhone);
+        context.setVariable("company_email", companyEmail);
+        context.setVariable("company_goal", companyGoal);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
 }
