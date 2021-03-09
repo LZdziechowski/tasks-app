@@ -41,6 +41,8 @@ dependencies {
 	testImplementation 'com.google.code.gson:gson'
 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.4.3'
+
+	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
 }
 
 test {
