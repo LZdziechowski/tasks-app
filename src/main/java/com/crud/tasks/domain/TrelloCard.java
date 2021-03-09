@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class TrelloCard {
 
-    private String name;
-    private String description;
-    private String pos;
-    private String listId;
+    private final String name;
+    private final String description;
+    private final String pos;
+    private final String listId;
 }

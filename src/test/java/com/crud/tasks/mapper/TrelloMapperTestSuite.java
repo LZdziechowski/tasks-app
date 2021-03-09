@@ -2,8 +2,6 @@ package com.crud.tasks.mapper;
 
 import com.crud.tasks.domain.*;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -13,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrelloMapperTestSuite {
 
 
-    private TrelloMapper trelloMapper = new TrelloMapper();
+    private final TrelloMapper trelloMapper = new TrelloMapper();
 
     @Test
     void testMapTo() {

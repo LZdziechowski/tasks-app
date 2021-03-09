@@ -43,7 +43,7 @@ public class MailCreatorService {
         context.setVariable("message", message);
         context.setVariable("tasks_url", "https://lzdziechowski.github.io/");
         context.setVariable("button", "Visit website");
-        context.setVariable("admin_name", adminConfig);
+        context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("company_name", companyName);
         context.setVariable("company_phone", companyPhone);
         context.setVariable("company_email", companyEmail);
