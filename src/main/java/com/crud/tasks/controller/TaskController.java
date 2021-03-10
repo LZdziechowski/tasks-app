@@ -4,6 +4,7 @@ import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.List;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/v1")
+@Getter
 public class TaskController {
 
     private final DbService dbService;
@@ -32,9 +34,8 @@ public class TaskController {
 
     @GetMapping(value = "/tasks/{taskId}")
     public TaskDto getTask(@PathVariable Long taskId) throws TaskNotFoundException {
-        return taskMapper.mapToTaskDto(
-                dbService.getTask(taskId).orElseThrow(TaskNotFoundException::new)
-        );
+        Task task = dbService.getTask(taskId).orElseThrow(TaskNotFoundException::new);
+        return taskMapper.mapToTaskDto(task);
     }
 
     @PostMapping(value = "/tasks", consumes = MediaType.APPLICATION_JSON_VALUE)
