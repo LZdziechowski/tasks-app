@@ -8,6 +8,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+
+import javax.mail.internet.MimeMessage;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.times;
@@ -35,7 +38,7 @@ class SimpleEmailServiceTest {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.sendSimpleMail(mail);
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }
@@ -53,7 +56,25 @@ class SimpleEmailServiceTest {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
         //When
-        simpleEmailService.send(mail);
+        simpleEmailService.sendSimpleMail(mail);
+        //Then
+        verify(javaMailSender, times(1)).send(mailMessage);
+    }
+
+    @Test
+    void shouldSendEmailWithTrelloCardTemplate() {
+        //Given
+        Mail mail = Mail.builder()
+                .mailTo("test1@test.com")
+                .subject("testSubject")
+                .message("testMessage")
+                .build();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(mail.getMailTo());
+        mailMessage.setSubject(mail.getSubject());
+        mailMessage.setText(mail.getMessage());
+        //When
+        simpleEmailService.sendSimpleMail(mail);
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }
