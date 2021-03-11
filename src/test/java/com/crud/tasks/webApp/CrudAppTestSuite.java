@@ -97,12 +97,12 @@ public class CrudAppTestSuite {
         Thread.sleep(3000);
     }
 
-    @Test
+   /* @Test
     void shouldCreateTrelloCard() throws InterruptedException {
         String taskName = createCrudAppTestTask();
         System.out.println("Test task name: " + taskName);
         sendTestTaskToTrello(taskName);
         deleteTestTaskFromCrudApp(taskName);
         Assertions.assertTrue(checkTestTaskExistingInTrello(taskName));
-    }
+    }*/
 }

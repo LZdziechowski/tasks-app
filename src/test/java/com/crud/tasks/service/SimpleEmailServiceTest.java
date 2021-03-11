@@ -61,21 +61,35 @@ class SimpleEmailServiceTest {
         verify(javaMailSender, times(1)).send(mailMessage);
     }
 
-    @Test
+/*    @Test
     void shouldSendEmailWithTrelloCardTemplate() {
         //Given
+        String subject = "Tasks: Once a day email";
         Mail mail = Mail.builder()
                 .mailTo("test1@test.com")
-                .subject("testSubject")
+                .subject("Tasks: Once a day email")
                 .message("testMessage")
                 .build();
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setText(mail.getMessage());
+        MimeMessagePreparator mailMessage = simpleEmailService.createMimeMessage(mail, subject);
         //When
-        simpleEmailService.sendSimpleMail(mail);
+        simpleEmailService.sendWithTemplate(mail);
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
     }
+
+    @Test
+    void shouldSendEmailWithOnceADayInformationTemplate() {
+        //Given
+        String subject = "Task: New Trello card";
+        Mail mail = Mail.builder()
+                .mailTo("test1@test.com")
+                .subject("Task: New Trello card")
+                .message("testMessage")
+                .build();
+        MimeMessagePreparator mailMessage = simpleEmailService.createMimeMessage(mail, subject);
+        //When
+        simpleEmailService.sendWithTemplate(mail);
+        //Then
+        verify(javaMailSender, times(1)).send(simpleEmailService.createMimeMessage(mail, subject));
+    }*/
 }

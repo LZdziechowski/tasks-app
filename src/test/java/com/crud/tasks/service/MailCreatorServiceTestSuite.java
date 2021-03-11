@@ -1,12 +1,16 @@
 package com.crud.tasks.service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class MailCreatorServiceTestSuite {
 
-    MailCreatorService mailCreatorService = new MailCreatorService();
+    @Autowired
+    MailCreatorService mailCreatorService;
 
     @Test
     void shouldCreateTrelloCardMail() {
@@ -17,5 +21,16 @@ class MailCreatorServiceTestSuite {
         //Then
         assertNotNull(result);
     }
+
+    @Test
+    void shouldCreateOnceADayInformationMail() {
+        //Given
+        String message = "testMessage";
+        //When
+        String result = mailCreatorService.buildTasksNumberInformationEmail(message);
+        //Then
+        assertNotNull(result);
+    }
+
 
 }
